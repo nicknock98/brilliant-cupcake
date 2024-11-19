@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cupcakes - Brilliant Cupcakes</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <h1>Brilliant Cupcakes</h1>
+            <p>Os melhores cupcakes da cidade!</p>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="Login.html">Login</a></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="cupcakes.html">Cupcakes</a></li>
+                <li><a href="sobre.html">Sobre Nós</a></li>
+                <li><a href="contato.html">Contato</a></li>
+                <li><a href="cart.html">Carrinho</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="cards">
+        <div class="card">
+            <img src="cupcake1.jpg" alt="Cupcake de Baunilha">
+            <h3>Cupcake de Baunilha</h3>
+            <p>Cupcake clássico de baunilha com cobertura de creme suave.</p>
+            <div class="price-container">
+                <span class="price">R$ 5,00</span>
+                <div class="favorite-container">
+                    <button class="favorite-btn" onclick="toggleFavorite(this)">🤍</button>
+                </div>
+                <div class="add-to-cart">
+                    <input type="number" value="1" min="1" class="quantity" data-price="5" oninput="updateTotal(this)">
+                    <button class="btn small-btn" onclick="addToCart(this)">Adicionar ao Carrinho</button>
+                </div>
+                <span class="total-price">R$ 5,00</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="cupcake2.jpg" alt="Cupcake de Chocolate">
+            <h3>Cupcake de Chocolate</h3>
+            <p>Delicioso cupcake de chocolate com cobertura cremosa.</p>
+            <div class="price-container">
+                <span class="price">R$ 6,00</span>
+                <div class="favorite-container">
+                    <button class="favorite-btn" onclick="toggleFavorite(this)">🤍</button>
+                </div>
+                <div class="add-to-cart">
+                    <input type="number" value="1" min="1" class="quantity" data-price="6" oninput="updateTotal(this)">
+                    <button class="btn small-btn" onclick="addToCart(this)">Adicionar ao Carrinho</button>
+                </div>
+                <span class="total-price">R$ 6,00</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <img src="cupcake3.jpg" alt="Cupcake de Morango">
+            <h3>Cupcake de Morango</h3>
+            <p>Cupcake de morango fresco com cobertura de glacê rosa.</p>
+            <div class="price-container">
+                <span class="price">R$ 4,50</span>
+                <div class="favorite-container">
+                    <button class="favorite-btn" onclick="toggleFavorite(this)">🤍</button>
+                </div>
+                <div class="add-to-cart">
+                    <input type="number" value="1" min="1" class="quantity" data-price="4.5" oninput="updateTotal(this)">
+                    <button class="btn small-btn" onclick="addToCart(this)">Adicionar ao Carrinho</button>
+                </div>
+                <span class="total-price">R$ 4,50</span>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Brilliant Cupcakes. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        function updateTotal(input) {
+            const price = parseFloat(input.dataset.price);
+            const quantity = input.value;
+            const totalPrice = price * quantity;
+
+            const totalPriceElement = input.closest('.card').querySelector('.total-price');
+            totalPriceElement.textContent = `R$ ${totalPrice.toFixed(2)}`;
+        }
+
+        function toggleFavorite(button) {
+            button.classList.toggle('favorited');
+            button.textContent = button.classList.contains('favorited') ? '❤️' : '🤍';
+        }
+
+        function addToCart(button) {
+            const card = button.closest('.card');
+            const name = card.querySelector('h3').textContent;
+            const price = parseFloat(card.querySelector('.price').textContent.replace('R$', '').trim()); // Preço
+            const quantity = card.querySelector('.quantity').value;
+
+            const cupcake = {
+                name: name,
+                price: price,
+                quantity: quantity,
+                totalPrice: price * quantity
+            };
+
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+            cart.push(cupcake);
+
+            localStorage.setItem('cart', JSON.stringify(cart));
+
+            alert(`${name} foi adicionado ao carrinho!`);
+        }
+    </script>
+</body>
+</html>
